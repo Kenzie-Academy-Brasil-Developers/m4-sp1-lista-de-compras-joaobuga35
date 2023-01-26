@@ -24,5 +24,22 @@ export const getList = (request: Request, response: Response): Response => {
 
 export const getListWithId = (request: Request, response: Response): Response => {
     const indexFromMiddle: number = request.listPurchasing.indexAboutListId
+
+    if (indexFromMiddle === -1) {
+        return response.status(404).json({message: `List with id: ${request.params.id}, does not exist`})
+    }
+
     return response.status(200).json(dataBaseLists[indexFromMiddle])
+}
+
+export const deleteList = (request: Request, response: Response): Response => {
+    const indexFromMiddle: number = request.listPurchasing.indexAboutListId
+
+    if (indexFromMiddle === -1) {
+        return response.status(404).json({message:  `List with id: ${request.params.id}, does not exist`})
+    }
+
+    dataBaseLists.splice(indexFromMiddle,1)
+
+    return response.status(204).json()
 }
