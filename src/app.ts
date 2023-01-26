@@ -1,12 +1,10 @@
 import express, { Application, json, Request, Response } from "express";
+import { createList } from "./logic";
 
 const app: Application = express();
 app.use(json());
 
-app.post("/login", (request:Request, response:Response) => {
-    console.log(request.body)
-    return response.status(201).json({message:"Usuário criado"})
-})
+app.post("/purchaseList", createList)
 
 const PORT:number = 3000
 app.listen(PORT, () => {
