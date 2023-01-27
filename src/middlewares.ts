@@ -7,18 +7,21 @@ export const validatedBodyMiddleware = (request: Request, response: Response, ne
     const requiredKeys: Array<iListRequiredKeys> = ["listname","data"]
     const requiredItens: Array<iItensRequiredKeys> = ["name","quantity"]
 
+    if (typeof request.body.listName !== "string") {
+        return response.status(400).json({message: `The list name need to be a string`})
+    }
 
     let validatedKeys: boolean = requiredKeys.some((key: string) => keys.includes(key))
 
-    if (!validatedKeys || keys.length > 2 ) {
+    if (!validatedKeys || keys.length > 2 || keys.length < 2 ) {
         return response.status(400).json({message: `This correct keys are ${requiredKeys}`})
     }
 
     request.body.data.forEach((element: any, index:any) => {
         const keysData: Array<string> = Object.keys(element)
 
-        if(request.body.data[index].name !== String || request.body.data[index].quantity !== String){
-            return response.status(400).json({message: `oi`})
+        if(typeof request.body.data[index].name !== "string" || typeof request.body.data[index].quantity !== "string"){
+            return response.status(400).json({message: `The list name need to be a string`})
         }
 
         let validatedKeysData: boolean = requiredItens.every((key: string) => keysData.includes(key))
@@ -45,7 +48,7 @@ export const ensureListExistId = (request: Request, response: Response, next: Ne
     return next()
 }
 
-export const deleteWithId = (request: Request, response: Response, next: NextFunction): Response | void => {
+export const deleteWithIdAndUpdate = (request: Request, response: Response, next: NextFunction): Response | void => {
     const idList: number = parseInt(request.params.id)
     const nameProduct:string = request.params.name
     const myList = dataBaseLists.find(elem => elem.id === idList)

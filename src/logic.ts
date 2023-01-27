@@ -13,11 +13,11 @@ export const createList = (request: Request, response:Response) : Response => {
 
     dataBaseIds.push(id)
     dataBaseLists.push(newBody)
-    return response.status(201).json({newBody})
+    return response.status(201).json({id:id,...body})
 }
 
 export const getList = (request: Request, response: Response): Response => {
-    return response.status(200).json({ dataBaseLists })
+    return response.status(200).json( dataBaseLists )
 }
 
 export const getListWithId = (request: Request, response: Response): Response => {
@@ -38,4 +38,13 @@ export const deleteItemList = (request: Request, response: Response): Response =
 
     listDeleteItens?.data.splice(indexDeleteItens,1)
     return response.status(204).json()
+}
+
+export const updateItemList = (request: Request, response: Response): Response => {
+    const indexUpdate:number = request.listItensDelete.productKeyNameIndex
+    const listUpdate: idType = request.listItensDelete.myList
+
+    dataBaseLists[indexUpdate] = {...listUpdate.data[indexUpdate],...request.body}
+    console.log("deu bom")
+    return response.status(200).json()
 }
