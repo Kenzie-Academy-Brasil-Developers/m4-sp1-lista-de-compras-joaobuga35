@@ -5,7 +5,7 @@ import { dataBaseIds, dataBaseLists } from "./database";
 export const createList = (request: Request, response:Response) : Response => {
     const body:iList = request.body
 
-    const id = dataBaseLists.length + 1
+    const id = dataBaseIds.length + 1
     const newBody:idType = {
         ...body,
         id:id
@@ -17,8 +17,6 @@ export const createList = (request: Request, response:Response) : Response => {
 }
 
 export const getList = (request: Request, response: Response): Response => {
-    console.log(request.body)
-
     return response.status(200).json({ dataBaseLists })
 }
 
@@ -31,5 +29,13 @@ export const deleteList = (request: Request, response: Response): Response => {
     const indexFromMiddle: number = request.listPurchasing.indexAboutListId
     dataBaseLists.splice(indexFromMiddle,1)
 
+    return response.status(204).json()
+}
+
+export const deleteItemList = (request: Request, response: Response): Response => {
+    const indexDeleteItens:number = request.listItensDelete.productKeyNameIndex
+    const listDeleteItens: idType = request.listItensDelete.myList
+
+    listDeleteItens?.data.splice(indexDeleteItens,1)
     return response.status(204).json()
 }
