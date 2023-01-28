@@ -44,7 +44,7 @@ export const updateItemList = (request: Request, response: Response): Response =
     const indexUpdate:number = request.listItensDelete.productKeyNameIndex
     const listUpdate: idType = request.listItensDelete.myList
 
-    dataBaseLists[indexUpdate] = {...listUpdate.data[indexUpdate],...request.body}
-    console.log("deu bom")
-    return response.status(200).json()
+    listUpdate.data[indexUpdate] = {...listUpdate.data[indexUpdate],...request.body}
+
+    return response.status(200).json(listUpdate.data[indexUpdate])
 }

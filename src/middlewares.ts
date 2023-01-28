@@ -52,7 +52,7 @@ export const deleteWithIdAndUpdate = (request: Request, response: Response, next
     const idList: number = parseInt(request.params.id)
     const nameProduct:string = request.params.name
     const myList = dataBaseLists.find(elem => elem.id === idList)
-
+    
     if (!myList) {
         return response.status(404).json({message: `List with id: ${idList}, does not exist`})
     }
@@ -68,5 +68,17 @@ export const deleteWithIdAndUpdate = (request: Request, response: Response, next
         return response.status(404).json({message: `List with name: ${nameProduct}, does not exist`})
     } 
 
+    return next()
+}
+
+export const validatedBodyPatch = (request: Request, response: Response, next: NextFunction): Response | void =>  {
+    const keys = Object.keys(request.body)
+    const requiredItens: Array<iItensRequiredKeys> = ["name","quantity"]
+
+    let validateKeys: boolean = requiredItens.every((key:string) => keys.includes(key))
+
+    if (!validateKeys) {
+        return response.status(400).json({message:`Updatable fields are: name and quantity`})
+    }
     return next()
 }
